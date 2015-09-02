@@ -38,6 +38,7 @@ public class Checkout extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+			System.out.println("Checkout");
 			ArrayList<CartItem> ct = (ArrayList<CartItem>) request.getSession().getAttribute("cart");
 			double total =0;
 			String message = "";
@@ -62,13 +63,14 @@ public class Checkout extends HttpServlet {
 			message += "</table> <br> <b>GrandTotal = "+grand_total;
 			
 			String username =(String) request.getSession().getAttribute("username");
+			//request.getSession().setAttribute()
 			DBUtil.delete_cart(username);
 			
 			
 			request.getSession().setAttribute("cart", null);
 			request.setAttribute("message", message);
 
-			request.getServletContext().getRequestDispatcher("/output.jsp")
+			request.getServletContext().getRequestDispatcher("/AcceptPayment")
 					.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
