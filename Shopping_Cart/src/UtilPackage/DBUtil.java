@@ -87,6 +87,22 @@ public static void delete_cart(String username) {
 		 }
 	
 }
- 
+public static void delete_item(String id, String username) {
+	EntityManager em = DBUtil.getEmFactory().createEntityManager();
+	String q = "delete from ProductCart p where p.productId="+id+" and p.username='"+username+"'" ;
+
+	 EntityTransaction trans = em.getTransaction();
+	 trans.begin(); 
+	 try {
+		 em.createQuery(q).executeUpdate();
+		 trans.commit();
+	 } catch (Exception e) {
+	 System.out.println(e);
+	 trans.rollback();
+	 } finally {
+	 em.close();
+	 }
+
+}
 
 }

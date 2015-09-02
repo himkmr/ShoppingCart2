@@ -52,7 +52,7 @@ public class ShowShoppingCart extends HttpServlet {
 				total=total+(temp.item_price*temp.quantity);
 				message += "<tr><td>" + temp.item_name + "</td>" + "<td>"
 						+ temp.item_price + "</td>" + "<td>" + temp.quantity
-						+ "</td></tr>";
+						+ "</td><td><form action=\"RemoveItem\"><input name=\"id\" type =\"hidden\" value="+temp.item_id+"><input type=\"submit\" value=\"Remove\"></form></td></tr>";
 
 			}}
 			message += "</table> <br> <b>Oreder Total = "+total;
