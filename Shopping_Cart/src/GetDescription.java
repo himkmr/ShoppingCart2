@@ -43,7 +43,23 @@ public class GetDescription extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String message = "";
+		message += getProduct(request, response);
+		message += getComments(request, response);
+
+		request.setAttribute("message", message);
+
+		request.getServletContext().getRequestDispatcher("/output.jsp")
+				.forward(request, response);
+
+	}
+
+	
+	
+	
+	private String getProduct(HttpServletRequest request, HttpServletResponse response) {
+		String message = "";
 		try {
+
 			EntityManager em = UtilPackage.DBUtil.getEmFactory()
 					.createEntityManager();
 			String search = request.getParameter("name");
@@ -81,7 +97,16 @@ public class GetDescription extends HttpServlet {
 			}
 
 			message += "</table>";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return message;
+	}
 
+	private String getComments(HttpServletRequest request,
+			HttpServletResponse response) {
+		String message = "";
+		try {
 			message = message
 					+ "<form style=\"width:30%\" action =\"AddComments\"><b>Rate this Product</b><br><label class=\"radio-inline\">"
 					+ "<input type=\"radio\" name=\"inlineRadioOptions\" id=\"inlineRadio1\" value=\"1\"> 1"
@@ -93,34 +118,29 @@ public class GetDescription extends HttpServlet {
 					+ "<input type=\"radio\" name=\"inlineRadioOptions\" id=\"inlineRadio3\" value=\"3\"> 4"
 					+ "</label><label class=\"radio-inline\">"
 					+ "<input type=\"radio\" name=\"inlineRadioOptions\" id=\"inlineRadio3\" value=\"3\"> 5</label>"
-					+"<textarea class=\"form-control\" name =\"comments\" rows=\"3\"></textarea>"
+					+ "<textarea class=\"form-control\" name =\"comments\" rows=\"3\"></textarea>"
 					+ "<input type=\"submit\" value =\"Add Ratings\"></form>";
-			
-			
-			//Show Comments
-			EntityManager em2 = UtilPackage.DBUtil.getEmFactory().createEntityManager();
 
-				String q2="select t from ProductComment t where t.productId="+request.getSession().getAttribute("pid");
-				//System.out.println(q);
-				TypedQuery<ProductComment>bq2 =em.createQuery(q2,ProductComment.class);
+			EntityManager em2 = UtilPackage.DBUtil.getEmFactory()
+					.createEntityManager();
 
-				List<ProductComment>list2=bq2.getResultList();
-				message+="<br><br><h3>Comments</h3><br><table class=\"table table-hover\" style=\"width:100%\"><tr bgcolor=\"#C0C0C0\"><td><b>User </td><td><b>Rating </td><td><b>Comments</td></tr>";
-				for(ProductComment temp2:list2){
-					message+="<tr><td>"+temp2.getUserName()+"</td>";
-					message+="<td>"+temp2.getRatings()+"</td>";
-					message+="<td>"+temp2.getComments()+"</td></tr>";
-				}
-				message+="</table>";
-				request.setAttribute("message", message);
+			String q2 = "select t from ProductComment t where t.productId="
+					+ request.getSession().getAttribute("pid");
+			// System.out.println(q);
+			TypedQuery<ProductComment> bq2 = em2.createQuery(q2,
+					ProductComment.class);
 
-			
-			request.setAttribute("message", message);
-
-			request.getServletContext().getRequestDispatcher("/output.jsp")
-					.forward(request, response);
+			List<ProductComment> list2 = bq2.getResultList();
+			message += "<br><br><h3>Comments</h3><br><table class=\"table table-hover\" style=\"width:100%\"><tr bgcolor=\"#C0C0C0\"><td><b>User </td><td><b>Rating </td><td><b>Comments</td></tr>";
+			for (ProductComment temp2 : list2) {
+				message += "<tr><td>" + temp2.getUserName() + "</td>";
+				message += "<td>" + temp2.getRatings() + "</td>";
+				message += "<td>" + temp2.getComments() + "</td></tr>";
+			}
+			message += "</table>";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return message;
 	}
 }

@@ -64,6 +64,8 @@ public class Checkout extends HttpServlet {
 			String username =(String) request.getSession().getAttribute("username");
 			DBUtil.delete_cart(username);
 			
+			
+			request.getSession().setAttribute("cart", null);
 			request.setAttribute("message", message);
 
 			request.getServletContext().getRequestDispatcher("/output.jsp")
