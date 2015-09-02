@@ -71,6 +71,8 @@ public class SignUp extends HttpServlet {
 			puser.setUsername(username);
 			puser.setZip(zip);
 			
+			request.getSession().setAttribute("username", username);
+			request.getSession().setAttribute("name", name);
 			DBUtil.insert(puser);
 			request.setAttribute("message", message);
 			request.getServletContext().getRequestDispatcher("/output.jsp").forward(request, response);

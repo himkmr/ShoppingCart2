@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 import java.util.List;
 
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.Product;
+import model.ProductComment;
 
 /**
  * Servlet implementation class GetDescription
@@ -50,28 +50,75 @@ public class GetDescription extends HttpServlet {
 			String q = "select t from Product t where t.name='" + search + "'";
 			// System.out.println(q);
 			TypedQuery<Product> bq = em.createQuery(q, Product.class);
-		
+
 			List<Product> list = bq.getResultList();
-			
+
 			for (Product temp : list) {
-				message+="<img src=\""+temp.getId()+".jpg\" style=\"position:absolute; left:150; height:200; width:250;\">";
+				message += "<img src=\""
+						+ temp.getId()
+						+ ".jpg\" style=\"position:absolute; left:150; height:200; width:250;\">";
 				message += "<table class=\"table table-hover\" style=\"width:60%\">";
 				message += "<tr><td style=\"text-align:center;\"><b>Item ID </td></tr>"
-						+ "<tr><td style=\"text-align:center;\">"+ temp.getId()+"</td></tr>"+
-						"<tr><td style=\"text-align:center;\"><b>Item Name </td></tr>"
-						+ "<tr><tr><td style=\"text-align:center;\">"+ temp.getName() +"</td></tr>"+
-						"<tr><td style=\"text-align:center;\"><b>Description </td></tr>"
-						+ "<tr><td style=\"text-align:center;\">"+ temp.getDescription() +"</td></tr>"+
-						"<tr><td style=\"text-align:center;\"><b>Price</td></tr>"
-						+ "<tr><td style=\"text-align:center;\">"+ temp.getPrice() +"</td></tr>"+
-						"<tr><td style=\"text-align:center;\"><b>Quantity Available</td></tr>"
-						+ "<tr><td style=\"text-align:center;\">"+ temp.getQuantityAvailable() +"</td></tr>";
+						+ "<tr><td style=\"text-align:center;\">"
+						+ temp.getId()
+						+ "</td></tr>"
+						+ "<tr><td style=\"text-align:center;\"><b>Item Name </td></tr>"
+						+ "<tr><tr><td style=\"text-align:center;\">"
+						+ temp.getName()
+						+ "</td></tr>"
+						+ "<tr><td style=\"text-align:center;\"><b>Description </td></tr>"
+						+ "<tr><td style=\"text-align:center;\">"
+						+ temp.getDescription()
+						+ "</td></tr>"
+						+ "<tr><td style=\"text-align:center;\"><b>Price</td></tr>"
+						+ "<tr><td style=\"text-align:center;\">"
+						+ temp.getPrice()
+						+ "</td></tr>"
+						+ "<tr><td style=\"text-align:center;\"><b>Quantity Available</td></tr>"
+						+ "<tr><td style=\"text-align:center;\">"
+						+ temp.getQuantityAvailable() + "</td></tr>";
+				request.getSession().setAttribute("pid", temp.getId());
 			}
+
+			message += "</table>";
+
+			message = message
+					+ "<form style=\"width:30%\" action =\"AddComments\"><b>Rate this Product</b><br><label class=\"radio-inline\">"
+					+ "<input type=\"radio\" name=\"inlineRadioOptions\" id=\"inlineRadio1\" value=\"1\"> 1"
+					+ "</label><label class=\"radio-inline\">"
+					+ "<input type=\"radio\" name=\"inlineRadioOptions\" id=\"inlineRadio2\" value=\"2\"> 2"
+					+ "</label><label class=\"radio-inline\">"
+					+ "<input type=\"radio\" name=\"inlineRadioOptions\" id=\"inlineRadio3\" value=\"3\"> 3"
+					+ "</label><label class=\"radio-inline\">"
+					+ "<input type=\"radio\" name=\"inlineRadioOptions\" id=\"inlineRadio3\" value=\"3\"> 4"
+					+ "</label><label class=\"radio-inline\">"
+					+ "<input type=\"radio\" name=\"inlineRadioOptions\" id=\"inlineRadio3\" value=\"3\"> 5</label>"
+					+"<textarea class=\"form-control\" name =\"comments\" rows=\"3\"></textarea>"
+					+ "<input type=\"submit\" value =\"Add Ratings\"></form>";
 			
-			message+="</table>";
+			
+			//Show Comments
+			EntityManager em2 = UtilPackage.DBUtil.getEmFactory().createEntityManager();
+
+				String q2="select t from ProductComment t where t.productId="+request.getSession().getAttribute("pid");
+				//System.out.println(q);
+				TypedQuery<ProductComment>bq2 =em.createQuery(q2,ProductComment.class);
+
+				List<ProductComment>list2=bq2.getResultList();
+				message+="<br><br><h3>Comments</h3><br><table class=\"table table-hover\" style=\"width:100%\"><tr bgcolor=\"#C0C0C0\"><td><b>User </td><td><b>Rating </td><td><b>Comments</td></tr>";
+				for(ProductComment temp2:list2){
+					message+="<tr><td>"+temp2.getUserName()+"</td>";
+					message+="<td>"+temp2.getRatings()+"</td>";
+					message+="<td>"+temp2.getComments()+"</td></tr>";
+				}
+				message+="</table>";
+				request.setAttribute("message", message);
+
+			
 			request.setAttribute("message", message);
 
-		 request.getServletContext().getRequestDispatcher("/output.jsp").forward(request, response);
+			request.getServletContext().getRequestDispatcher("/output.jsp")
+					.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

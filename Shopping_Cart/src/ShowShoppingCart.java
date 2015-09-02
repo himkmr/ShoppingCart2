@@ -45,8 +45,10 @@ public class ShowShoppingCart extends HttpServlet {
 			double total =0;
 			String message = "";
 			message += "<table class=\"table table-hover\"  style=\"width:60%\"><tr><td><b>Item Name </td><td><b>Price </td><td><b>Quantity</td></tr>";
-		if(ct!=null){
+			int items= 0;
+			if(ct!=null){
 			for (CartItem temp : ct) {
+				items++;
 				total=total+(temp.item_price*temp.quantity);
 				message += "<tr><td>" + temp.item_name + "</td>" + "<td>"
 						+ temp.item_price + "</td>" + "<td>" + temp.quantity
@@ -54,6 +56,7 @@ public class ShowShoppingCart extends HttpServlet {
 
 			}}
 			message += "</table> <br> <b>Oreder Total = "+total;
+			message += "</table> <br> <b>You have "+items+" items in your cart.";
 			
 			message+="<div class=\"btn-group btn-group-justified\" role=\"group\">"+
 			 "<a href=\"Checkout\"><div class=\"btn-group\" role=\"group\">"+

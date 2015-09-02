@@ -43,7 +43,7 @@ public class SignOut extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("in signout out post");
+		//System.out.println("in signout out post");
 		ArrayList<CartItem> ct = (ArrayList<CartItem>) request.getSession().getAttribute("cart");
 		if(ct==null)
 			System.out.println("session cart is null");
@@ -53,7 +53,7 @@ public class SignOut extends HttpServlet {
 		
 		for(CartItem item:ct)
 		{
-			System.out.println("in loop");
+			//System.out.println("in loop");
 			ProductCart p =new ProductCart();
 			p.setProductId(new BigDecimal(item.get_Item_id()));
 			p.setProductQuantity(new BigDecimal(item.getQuantity()));

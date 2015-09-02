@@ -52,6 +52,7 @@ public class SignIn extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String message="";
+
 		EntityManager em = UtilPackage.DBUtil.getEmFactory().createEntityManager();
 		try {
 
@@ -60,15 +61,21 @@ public class SignIn extends HttpServlet {
 			TypedQuery<ProductUser>bq =em.createQuery(q,ProductUser.class);
 			String pass =null;
 			List<ProductUser> list=bq.getResultList();
-		
+			String name ="";
 			for(ProductUser temp:list){
 				pass = temp.getPassword();
+				name =temp.getFullname();
 			}
 			if(pass!=null && password!=null && pass.equals(password))
 			{
 				message+="Hello "+username;
-				
 				String q2="select t from ProductCart t where t.username='"+username+"'";
+				if(username.equals("admin"))
+				{
+					q2="select t from ProductCart t";
+				}
+				
+			
 				TypedQuery<ProductCart>bq2 =em.createQuery(q2,ProductCart.class);
 				List<ProductCart> list2=bq2.getResultList();
 				ArrayList<CartItem> c = (ArrayList<CartItem>) request.getSession().getAttribute("cart");
@@ -85,6 +92,7 @@ public class SignIn extends HttpServlet {
 
 				request.setAttribute("message", message);
 				request.getSession().setAttribute("username", username);
+				request.getSession().setAttribute("name", name);
 				request.getServletContext().getRequestDispatcher("/output.jsp").forward(request, response);
 			}
 			
