@@ -55,9 +55,9 @@ public class BrowseAllItems extends HttpServlet {
 			TypedQuery<Product>bq =em.createQuery(q,Product.class);
 
 			List<Product> list=bq.getResultList();
-			message+="<table class=\"table table-hover\" style=\"width:60%\"><tr><td><b>Item Name </td><td><b>Description </td><td><b>Price</td><td><b>Quantity</td></tr>";
+			message+="<table class=\"table table-hover\" style=\"width:60%\"><tr bgcolor=\"#C0C0C0\"><td><b>Item Name </td><td><b>Description </td><td><b>Price</td><td><b>Quantity</td></tr>";
 			for(Product temp:list){
-				message+="<tr><td><a href=\"GetDescription?name="+temp.getName() +"\">"+temp.getName()+"</a></td>";
+				message+="<tr ><td><a href=\"GetDescription?name="+temp.getName() +"\">"+temp.getName()+"</a></td>";
 				message+="<td>"+temp.getDescription()+"</td>"
 						+"<td>"+temp.getPrice()+"</td><td>"
 								+ "<form action=\"AddToCart\"><input type=\"hidden\" name=\"name\" value=\""+temp.getName()+"\">"+

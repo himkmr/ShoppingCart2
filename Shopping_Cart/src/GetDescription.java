@@ -72,7 +72,7 @@ public class GetDescription extends HttpServlet {
 			for (Product temp : list) {
 				message += "<img src=\""
 						+ temp.getId()
-						+ ".jpg\" style=\"position:absolute; left:150; height:200; width:250;\">";
+						+ ".jpg\" style=\"position:relative; left:10%;\">";
 				message += "<table class=\"table table-hover\" style=\"width:60%\">";
 				message += "<tr><td style=\"text-align:center;\"><b>Item ID </td></tr>"
 						+ "<tr><td style=\"text-align:center;\">"
