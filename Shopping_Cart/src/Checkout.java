@@ -61,13 +61,13 @@ public class Checkout extends HttpServlet {
 			message += "</table> <br> <b>Oreder Total = "+total;
 			message += "</table> <br> <b>Tax = "+tax;
 			message += "</table> <br> <b>GrandTotal = "+grand_total;
-			
+			request.getSession().setAttribute("payment_amount", grand_total);
 			String username =(String) request.getSession().getAttribute("username");
 			//request.getSession().setAttribute()
-			DBUtil.delete_cart(username);
+			//DBUtil.delete_cart(username);
 			
 			
-			request.getSession().setAttribute("cart", null);
+		//	request.getSession().setAttribute("cart", null);
 			request.setAttribute("message", message);
 
 			request.getServletContext().getRequestDispatcher("/AcceptPayment")

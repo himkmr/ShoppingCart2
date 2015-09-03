@@ -6,7 +6,8 @@
 		<class>model.ProductUser</class>
 		<class>model.ProductCart</class>
 		<class>model.ProductComment</class>
-		<class>model.ProducatPayment</class>
+		<class>model.ProductPaymentHistory</class>
+		<class>model.ProductOrderHistory</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:xe"/>

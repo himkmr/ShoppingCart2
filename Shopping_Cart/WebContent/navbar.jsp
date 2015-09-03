@@ -19,9 +19,8 @@
 <li><a href="#"></a></li>
 <li><a href="#"></a></li>
 <li><a href="#"></a></li>
-<li><a href="#"></a></li>
-<li><a href="#"></a></li>
-<li><a href="#"></a></li>
+
+<li><a href="History"><b>History</b></a></li>
 <li><a href="NewUser.html"><b>Sign Up</b></a></li>
 <li><a href="signin.html"><b>Sign In</b></a></li>
 <li><a href="SignOut"><b>Sign Out</b></a></li>

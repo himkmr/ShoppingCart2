@@ -13,6 +13,8 @@ import javax.persistence.TypedQuery;
 import model.Product;
 import model.ProductCart;
 import model.ProductComment;
+import model.ProductOrderHistory;
+import model.ProductPaymentHistory;
 import model.ProductUser;
 
 
@@ -56,6 +58,38 @@ Persistence.createEntityManagerFactory("Shopping_Cart");
 	 em.close();
 	 }
 	 }
+ 
+ public static void insert_in_Cart(ProductOrderHistory user) {
+	 EntityManager em = DBUtil.getEmFactory().createEntityManager();
+	 EntityTransaction trans = em.getTransaction();
+	 trans.begin(); 
+	 try {
+	 em.persist(user);
+	 trans.commit();
+	 } catch (Exception e) {
+	 System.out.println(e);
+	 trans.rollback();
+	 } finally {
+	 em.close();
+	 }
+	 }
+ 
+ public static void insert_in_Cart(ProductPaymentHistory user) {
+	 EntityManager em = DBUtil.getEmFactory().createEntityManager();
+	 EntityTransaction trans = em.getTransaction();
+	 trans.begin(); 
+	 try {
+	 em.persist(user);
+	 trans.commit();
+	 } catch (Exception e) {
+	 System.out.println(e);
+	 trans.rollback();
+	 } finally {
+	 em.close();
+	 }
+	 }
+ 
+ 
  public static void insert_in_Comments(ProductComment user) {
 	 EntityManager em = DBUtil.getEmFactory().createEntityManager();
 	 EntityTransaction trans = em.getTransaction();
