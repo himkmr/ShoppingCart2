@@ -45,8 +45,11 @@ public class SignOut extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//System.out.println("in signout out post");
 		ArrayList<CartItem> ct = (ArrayList<CartItem>) request.getSession().getAttribute("cart");
-		if(ct==null)
-			System.out.println("session cart is null");
+		if(ct==null){
+			response.setContentType("text/html");
+			request.getServletContext().getRequestDispatcher("/index.html").forward(request, response);
+		
+		}
 		String username =(String) request.getSession().getAttribute("username");
 		DBUtil.delete_cart(username);
 		
